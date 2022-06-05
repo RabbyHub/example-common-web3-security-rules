@@ -1,0 +1,11 @@
+specVersion: 0.0.1
+description: sign tx should not be in community domain blocklist, otherwise alert FORBIDDEN
+signType: tx
+level: FORBIDDEN
+rule:
+    conditions:
+      - condition: A
+        // transaction's host domain should not be in community_domain_blocklist
+        factor: origin_in_list(tx.origin, 'community_domain_blocklist.txt')
+        description: "origin should not be in community_domain_blocklist"
+    logic: A
