@@ -5,10 +5,10 @@ level: FORBIDDEN
 rule:
     conditions:
       - condition: A
-        factor: tx.type_tx == 'type_token_transfer'
+        factor: tx.typeTx == 'type_token_transfer'
         description: "tx type is token transfer"
       - condition: B
         // to address is token contract.
-        factor: addr_info(tx.token_transfer.to_addr).is_token
+        factor: addrInfo(tx.tokenTransfer.toAddr).isToken
         description: "transfer to_addr is token contract"
     logic: A and B
