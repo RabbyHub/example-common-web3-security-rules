@@ -6,6 +6,6 @@ rule:
     conditions:
       - condition: A
         // transaction's host domain should not be in community_domain_blocklist
-        factor: origin_in_list(tx.origin, 'community_domain_blocklist.txt')
+        factor: originInList(tx.origin, 'community_domain_blocklist.txt')
         description: "origin should not be in community_domain_blocklist"
     logic: A
