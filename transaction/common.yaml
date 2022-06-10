@@ -1,0 +1,8 @@
+- 
+  description: The domain is in community domain blocklist.
+  level: Forbidden
+  logic: isInList(domain, source.communityDomainBlockList)
+- 
+  description: The address the transaction is directed to is in community contract address blocklist.
+  level: Forbidden
+  logic: isInList(tx.to, source.communityContractAddressBlockList)
