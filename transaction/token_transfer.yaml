@@ -6,13 +6,13 @@
   description: The recipient address does NOT exist on the current chain.
   level: Danger
   # logic: isNotNull(tokenTransfer) and addrNotExistOnChain(tokenTransfer.to, tx.chain)
-  # logic: isNotNull(tokenTransfer) and isNotInlist(tx.chain, getAddress(tokenTransfer.to).existChainList)
-  logic: isNotNull(tokenTransfer) and getAddress(tokenTransfer.to).isExist
+  logic: isNotNull(tokenTransfer) and isNotInlist(chain, getAddress(tokenTransfer.to).usedChainList)
+  #logic: isNotNull(tokenTransfer) and getAddress(tokenTransfer.to).isExist
 -
   description: You've NEVER transferred to this address before. 
   level: Warning
-  logic: isNotNull(tokenTransfer) and isEqualToZero(tokenTransfer.historyTransferCount)
-  # logic: isNotNull(tokenTransfer) and getTokenTransfer(tokenTransfer.from, tokenTransfer.to, tx.chain).historyTransferCount == 0
+  # logic: isNotNull(tokenTransfer) and isEqualToZero(tokenTransfer.historyTransferCount)
+  logic: isNotNull(tokenTransfer) and getAddrToAddrTransferCount(tokenTransfer.from, tokenTransfer.to, chain) == 0
 -
   description: The recipient address is a contract address but NOT multi-signed. 
   level: Forbidden
@@ -25,16 +25,28 @@
       description: The recipient address is contract address.
     - condition: C
       logic: not getContract(tokenTransfer.to).isMultisig
+      # isInlist('gnosis', getContract(tokenTransfer.to).multisigList)
       description: The recipient address is not multisig address.
   logic: A and B and C
 -
   description: The recipient ENS address has zero-width joiner. 
   level: Warning
-  logic: isNotNull(tokenTransfer) and getAddress(tokenTransfer.to).hasRiskEnsCharacter
+  # logic: isNotNull(tokenTransfer) and getAddress(tokenTransfer.to).hasRiskEnsCharacter
+  logic: isNotNull(tokenTransfer) and hasRiskEnsCharacter(getEnsName(tokenTransfer.to))
 -
-  description: The recipient address is a Gnosis address that exists on ANOTHER chain.
+  description: The recipient address is a multisig address that exists on ANOTHER chain.
   level: Forbidden
-  logic: isNotNull(tokenTransfer) and isNotInlist(tx.chain, getAddress(tokenTransfer.to).multisigChainList)
+  logic: isNotNull(tokenTransfer) and isNotInlist(chain, getAddress(tokenTransfer.to).multisigChainList)
+
+#  any([i.isMultiSig for i in getAddress(tokenTransfer.to).contactList])
+  
+#  any(map(getAddress(tokenTransfer.to).contactList, lambda contract: contract.isMultiSig))
+  
+  anyTrue(getAddress(tokenTransfer.to).contactList, 'isMultiSig')
+  
+  (chain, getAddress(tokenTransfer.to).contactList[0].isMultiSig, )
+  
+  
 -
 
   
