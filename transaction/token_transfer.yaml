@@ -6,7 +6,8 @@
   description: The recipient address does NOT exist on the current chain.
   level: Danger
   # logic: isNotNull(tokenTransfer) and addrNotExistOnChain(tokenTransfer.to, tx.chain)
-  logic: isNotNull(tokenTransfer) and isNotInlist(tx.chain, getAddress(tokenTransfer.to).existChainList)
+  # logic: isNotNull(tokenTransfer) and isNotInlist(tx.chain, getAddress(tokenTransfer.to).existChainList)
+  logic: isNotNull(tokenTransfer) and getAddress(tokenTransfer.to).isExist
 -
   description: You've NEVER transferred to this address before. 
   level: Warning
