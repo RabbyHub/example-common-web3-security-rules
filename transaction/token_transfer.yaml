@@ -14,7 +14,7 @@
   level: Forbidden
   conditions:
     - condition: A
-      logic: is_not_null(tokenTransfer)
+      logic: is_not_null(token_transfer)
       description: The transaction type is token transfer.
     - condition: B
       logic: is_not_null(get_contract(token_transfer.to))
