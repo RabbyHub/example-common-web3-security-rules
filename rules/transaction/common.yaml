@@ -1,6 +1,6 @@
 - description: The domain is in domain blocklist.
   level: 3
-  logic: is_in_list(domain, domain_pool.domain_blocklist)
+  logic: is_in_list(domain, domain_set.domain_blocklist)
 - description: The interaction address is in contract address blocklist.
   level: 3
-  logic: is_in_list(tx.to, address_pool.contract_address_blocklist)
+  logic: is_in_list(tx.to, address_set.contract_address_blocklist)
